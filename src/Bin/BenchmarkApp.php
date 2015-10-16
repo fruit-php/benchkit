@@ -13,6 +13,7 @@ class BenchmarkApp extends Application
 
     public function init()
     {
+        parent::init();
         $this->command('run', 'Fruit\BenchKit\Bin\RunCommand');
     }
 }

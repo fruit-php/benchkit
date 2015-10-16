@@ -19,7 +19,6 @@ class RunCommand extends Command
 
     public function arguments($args)
     {
-        parent::arguments($args);
         $args->add('dir')->isa('dir')->multiple();
     }
 
