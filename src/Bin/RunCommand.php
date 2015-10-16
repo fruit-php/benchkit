@@ -10,8 +10,11 @@ class RunCommand extends Command
 {
     public function options($opt)
     {
-        $desc = 'run this file to initialize the environment. (setting up db, autoload etc.)';
-        $opt->add('i|init?', $desc)->isa('file');
+        $i = 'run this file to initialize the environment. (setting up db, autoload etc.)';
+        $opt->add('i|init?', $i)->isa('file');
+
+        $b = 'running benchmark for at least this amount of time(seconds), default to 1';
+        $opt->add('b|base:', $b)->isa('number')->defaultValue(1);
     }
 
     public function arguments($args)
@@ -24,6 +27,10 @@ class RunCommand extends Command
     {
         $entry = "";
         @$entry = $this->options->init;
+        $ttl = $this->options->base;
+        if ($ttl <= 0) {
+            $ttl = 1;
+        }
         if (is_file($entry)) {
             require_once($entry);
         }
@@ -38,7 +45,7 @@ class RunCommand extends Command
         $newFunctions = get_defined_functions();
         $funcs = array_diff($newFunctions['user'], $oldFunctions['user']);
 
-        $b = new Benchmarker;
+        $b = new Benchmarker($ttl);
         foreach ($funcs as $f) {
             $b->register($f);
         }
