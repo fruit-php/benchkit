@@ -1,0 +1,30 @@
+{
+    "name": "fruit/benchkit",
+    "description": "Benchmark helper inspired from Golang",
+    "authors": [
+        {
+            "name": "Ronmi Ren",
+            "email": "ronmi@patrolavia.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*",
+        "squizlabs/php_codesniffer": "*",
+	"phploc/phploc": "*",
+	"pdepend/pdepend": "*",
+	"phpmd/phpmd": "*",
+	"sebastian/phpcpd": "*"
+    },
+    "require": {
+	"corneltek/cliframework": "~2",
+	"fruit/pathkit": "@dev"
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Fruit\\Benchmark\\": "src",
+	    "FruitTest\\Benchmark\\": "test"
+        }
+    }
+}

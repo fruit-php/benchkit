@@ -1,0 +1,15 @@
+<phpunit verbose="true" bootstrap="vendor/autoload.php">
+  <testsuites>
+    <testsuite name="core">
+      <directory suffix="Test.php">test</directory>
+    </testsuite>
+  </testsuites>
+  <logging>
+    <log type="coverage-html" target="build/coverage" charset="UTF-8" />
+  </logging>
+  <filter>
+    <blacklist>
+      <directory suffix=".php">vendor</directory>
+    </blacklist>
+  </filter>
+</phpunit>
