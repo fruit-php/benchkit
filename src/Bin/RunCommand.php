@@ -75,6 +75,6 @@ class RunCommand extends Command
         $f = substr($f, 9);
         list($n, $t) = $result;
 
-        echo sprintf("%30s  %8d times  %fms/op\n", $f, $n, $t*1000.0/$n);
+        echo sprintf("%30s  %fms/op (run %d times)\n", $f, $t*1000.0/$n, $n);
     }
 }
