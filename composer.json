@@ -19,11 +19,10 @@
 	"corneltek/cliframework": "~2",
 	"fruit/pathkit": "@dev"
     },
-    "suggest": {
-    },
     "autoload": {
         "psr-4": {
             "Fruit\\BenchKit\\": "src"
         }
-    }
+    },
+    "bin": ["bin/bench"]
 }
