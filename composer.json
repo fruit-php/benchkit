@@ -23,8 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Fruit\\Benchmark\\": "src",
-	    "FruitTest\\Benchmark\\": "test"
+            "Fruit\\BenchKit\\": "src"
         }
     }
 }

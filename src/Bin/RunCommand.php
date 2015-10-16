@@ -8,6 +8,12 @@ use Fruit\BenchKit\Benchmarker;
 
 class RunCommand extends Command
 {
+    public function options($opt)
+    {
+        $desc = 'run this file to initialize the environment. (setting up db, autoload etc.)';
+        $opt->add('i|init?', $desc)->isa('file');
+    }
+
     public function arguments($args)
     {
         parent::arguments($args);
@@ -16,6 +22,11 @@ class RunCommand extends Command
 
     public function execute($dir)
     {
+        $entry = "";
+        @$entry = $this->options->init;
+        if (is_file($entry)) {
+            require_once($entry);
+        }
         $oldFunctions = get_defined_functions();
         $pendingDirs = array((new Path($dir))->normalize());
 

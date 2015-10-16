@@ -3,4 +3,4 @@
 
 require('vendor/autoload.php');
 
-exit(Fruit\Benchmark\Bin\BenchmarkApp::getInstance()->runWithTry($argv)?0:1);
+exit(Fruit\BenchKit\Bin\BenchmarkApp::getInstance()->runWithTry($argv)?0:1);
