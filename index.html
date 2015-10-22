@@ -82,18 +82,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><p>This package is part of <a class="el" href="namespace_fruit.html">Fruit</a> Framework.</p>
 <p>BenchKit is set of tools helping you benchmark your program.</p>
-<p>It is still in early development stage, not usable.</p>
 <h2>Synopsis</h2>
 <p>See <code>mybench.php</code> in <code>example</code> folder.</p>
+<h2>How to write benchmarks</h2>
+<p>A benchmark test must be function or public method. It must receive only one parameter with type-hinting.</p>
+<h2>Organize your benchmarks</h2>
+<p>Benchmarks are grouped by their class. So it's suggested to put different group of benchmarks into different files.</p>
+<p>Benchmark function are collected into an unnamed group.</p>
 <h2>Command line helper</h2>
 <p><code>bench</code> is command line benchmark runner. It will scan specified directory recursivly, find out all benchmark functions, and run. For example:</p>
 <p>```sh bench run example ```</p>
+<p><code>bench</code> does not support construct arguments, you have to write your own benchmark executor to register benchmarks and run it.</p>
 <h2>License</h2>
 <p>Any version of MIT, GPL or LGPL. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 22 2015 16:40:07 for Fruit BenchKit by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Oct 22 2015 17:52:30 for Fruit BenchKit by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>
