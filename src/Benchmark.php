@@ -35,13 +35,21 @@ class Benchmark
     }
 
     /**
+     * Get how much time costs to run N loops.
+     */
+    public function T()
+    {
+        return $this->waste;
+    }
+
+    /**
      * Reset the internal timer.
      *
      * If you have to do some stuff to setup the environment, and
      * that costs some time, you can call this to reset the timer before
      * really doing test stuff.
      */
-    public function resetTimer()
+    public function Reset()
     {
         $this->waste = 0.0;
         $this->start = microtime(true);
@@ -50,7 +58,7 @@ class Benchmark
     /**
      * Temporary stop the timer.
      */
-    public function pauseTimer()
+    public function Pause()
     {
         $now = microtime(true);
         if ($this->start > 0.0) {
@@ -62,7 +70,7 @@ class Benchmark
     /**
      * Resume the timer.
      */
-    public function resumeTimer()
+    public function Resume()
     {
         if ($this->start <= 0.0) {
             $this->start = microtime(true);
@@ -74,7 +82,7 @@ class Benchmark
         $this->n = $n;
         $this->start = microtime(true);
         call_user_func($this->func, $this);
-        $this->pauseTimer();
+        $this->Pause();
         return $this->waste;
     }
 
@@ -98,7 +106,7 @@ class Benchmark
         $n = 1;
         $t = 0.0;
         while ($t < $this->ttl) {
-            $this->resetTimer();
+            $this->Reset();
             $t = $this->run($n);
             $n = $this->predict($n, $t);
         }
