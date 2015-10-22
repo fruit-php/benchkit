@@ -5,7 +5,8 @@ namespace Fruit\BenchKit\Bin;
 use CLIFramework\Command;
 use Fruit\PathKit\Path;
 use Fruit\BenchKit\Benchmarker;
-use Fruit\BenchKit\Formatter\DefaultFormatter;
+use Fruit\BenchKit\Formatter\DefaultSummaryLogger;
+use Fruit\BenchKit\Formatter\DefaultProgressLogger;
 
 class RunCommand extends Command
 {
@@ -52,7 +53,7 @@ class RunCommand extends Command
             }
         }
 
-        $b->run(new DefaultFormatter);
+        $b->run(new DefaultSummaryLogger, new DefaultProgressLogger);
     }
 
     private function requirePHPFiles($dir)

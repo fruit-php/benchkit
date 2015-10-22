@@ -4,29 +4,21 @@ namespace Fruit\BenchKit\Formatter;
 
 use Fruit\BenchKit\Benchmark;
 
-class DefaultFormatter implements Formatter
+class DefaultSummaryLogger implements Summary
 {
-    public function format(Benchmark $b)
-    {
-        echo sprintf("%s ... %d loops in %f ms\n",
-                     $b->name,
-                     $b->N(),
-                     $b->T()*1000.0);
-    }
-
-    public function formatAll(array $bs)
+    public function format(array $bs)
     {
         echo "\n";
         $maxNameLength = 0;
         usort($bs, function($a, $b){
-                $x = $a->N()/$a->T();
-                $y = $b->N()/$a->T();
+                $x = $a->T()*1000.0/$a->N();
+                $y = $b->T()*1000.0/$b->N();
 
                 if ($x > $y) {
-                    return -1;
+                    return 1;
                 }
                 if ($x < $y) {
-                    return 1;
+                    return -1;
                 }
                 return 0;
         });

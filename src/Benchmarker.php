@@ -2,7 +2,8 @@
 
 namespace Fruit\BenchKit;
 
-use Fruit\BenchKit\Formatter\Formatter;
+use Fruit\BenchKit\Formatter\Progress;
+use Fruit\BenchKit\Formatter\Summary;
 use Exception;
 use ReflectionClass;
 use ReflectionFunction;
@@ -102,11 +103,11 @@ class Benchmarker
      *                   will receive registered function, loops it run, and time it costs.
      * @return an associative array maps the benchmark function to their benchmark result.
      */
-    public function run(Formatter $formatter)
+    public function run(Summary $sum, Progress $pro)
     {
         foreach ($this->victims as $f => $b) {
-            $formatter->format($b->Benchmark());
+            $pro->format($b->Benchmark());
         }
-        $formatter->formatAll($this->victims);
+        $sum->format($this->victims);
     }
 }
