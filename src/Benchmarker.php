@@ -2,10 +2,12 @@
 
 namespace Fruit\BenchKit;
 
+use Fruit\BenchKit\Formatter\Formatter;
 use Exception;
 use ReflectionClass;
 use ReflectionFunction;
 use ReflectionMethod;
+use ReflectionException;
 
 /**
  * This is a helper for benchmarking your application.
@@ -27,30 +29,48 @@ class Benchmarker
         $this->victims = array();
     }
 
-    private function checkParam($params)
+    private function checkParam($name, $params)
     {
         if (count($params) != 1) {
-            return false;
+            return '';
         }
-        return true;
+        return $name;
     }
 
     private function checkFunction($func)
     {
         $f = new ReflectionFunction($func);
-        if (substr($f->getName(), 0, 9) != 'Benchmark') {
-            return false;
+        $name = $f->getName();
+        if ($f->isClosure()) {
+            $name = '(CLOSURE)';
         }
-        return $this->checkParam($f->getParameters());
+        return $this->checkParam($name, $f->getParameters());
+    }
+
+    private function checkMethodArray(array $func)
+    {
+        if (count($funct) != 2) {
+            return '';
+        }
+        $cls = null;
+        $method = null;
+        try {
+            $cls = new ReflectionClass($func[0]);
+            $method = $cls->getMethod($func[1]);
+        } catch (ReflectionException $e) {
+            return '';
+        }
+
+        $name = $cls->getName() . '::' . $method->getName();
+        return $this->checkParam($name, $method->getParameters());
     }
 
     /**
      * Register a benchmark function.
      *
-     * The benchmark function MUST be:
-     * - A function, method is not acceptable.
+     * The benchmark function has following restrictions:
      * - Receive exactly one parameter, which will be an instance of Fruit\Benchmark
-     * - Prefix "Benchmark" in its name.
+     * - "Class::StaticMethod" format is not acceptable. Use array format instead.
      *
      * Add type-hinting on the parameter is suggested.
      *
@@ -59,16 +79,19 @@ class Benchmarker
      */
     public function register(callable $func)
     {
-        $valid = false;
+        $name = '';
         if (function_exists($func)) {
-            $valid = $this->checkFunction($func);
+            $name = $this->checkFunction($func);
+        } elseif (is_array($func)) {
+            // method
+            $name = $this->checkMethodArray($func);
         }
 
-        if (! $valid) {
+        if ($name == '') {
             return false;
         }
 
-        $this->victims[$func] = new Benchmark($func, $this->ttl);
+        $this->victims[$func] = new Benchmark($name, $func, $this->ttl);
         return true;
     }
 
@@ -79,16 +102,11 @@ class Benchmarker
      *                   will receive registered function, loops it run, and time it costs.
      * @return an associative array maps the benchmark function to their benchmark result.
      */
-    public function run(callable $formatter = null)
+    public function run(Formatter $formatter)
     {
-        $ret = array();
         foreach ($this->victims as $f => $b) {
-            $data = $b->benchmark();
-            $ret[$f] = $data;
-            if ($formatter != null) {
-                $formatter($f, $data);
-            }
+            $formatter->format($b->Benchmark());
         }
-        return $ret;
+        $formatter->formatAll($this->victims);
     }
 }

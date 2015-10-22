@@ -5,6 +5,7 @@ namespace Fruit\BenchKit\Bin;
 use CLIFramework\Command;
 use Fruit\PathKit\Path;
 use Fruit\BenchKit\Benchmarker;
+use Fruit\BenchKit\Formatter\DefaultFormatter;
 
 class RunCommand extends Command
 {
@@ -46,10 +47,12 @@ class RunCommand extends Command
 
         $b = new Benchmarker($ttl);
         foreach ($funcs as $f) {
-            $b->register($f);
+            if (substr($f, 0, 9) == 'benchmark') {
+                $b->register($f);
+            }
         }
 
-        $b->run(array($this, 'formatter'));
+        $b->run(new DefaultFormatter);
     }
 
     private function requirePHPFiles($dir)
@@ -70,11 +73,4 @@ class RunCommand extends Command
         return $ret;
     }
 
-    public function formatter($f, $result)
-    {
-        $f = substr($f, 9);
-        list($n, $t) = $result;
-
-        echo sprintf("%30s  %fms/op (run %d times)\n", $f, $t*1000.0/$n, $n);
-    }
 }

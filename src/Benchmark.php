@@ -19,11 +19,13 @@ class Benchmark
     private $waste;
     private $func;
     private $ttl = 1.0;
+    public $name;
 
-    public function __construct(callable $func, $ttl = 1.0)
+    public function __construct($name, callable $func, $ttl = 1.0)
     {
         $this->func = $func;
         $this->ttl = ($ttl > 0)?$ttl:1.0;
+        $this->name = $name;
     }
 
     /**
@@ -96,10 +98,8 @@ class Benchmark
 
     /**
      * Do the benchmark stuff.
-     *
-     * @return array of result in [$run_n_times, $cost_n_miliseconds] format
      */
-    public function benchmark()
+    public function Benchmark()
     {
         $this->start = 0;
         $this->waste = 0.0;
@@ -110,6 +110,6 @@ class Benchmark
             $t = $this->run($n);
             $n = $this->predict($n, $t);
         }
-        return array($n, $t);
+        return $this;
     }
 }
