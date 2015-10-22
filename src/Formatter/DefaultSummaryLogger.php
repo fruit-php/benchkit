@@ -6,9 +6,18 @@ use Fruit\BenchKit\Benchmark;
 
 class DefaultSummaryLogger implements Summary
 {
-    public function format(array $bs)
+    public function format(array $bs) {
+        foreach ($bs as $group => $b) {
+            $this->f($group, $b);
+        }
+    }
+
+    private function f($group, array $bs)
     {
-        echo "\n";
+        if ($group == '') {
+            $group = "Global benchmarks";
+        }
+        echo "\n$group:\n";
         $maxNameLength = 0;
         usort($bs, function($a, $b){
                 $x = $a->T()*1000.0/$a->N();

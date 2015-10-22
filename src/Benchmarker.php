@@ -35,6 +35,12 @@ class Benchmarker
         if (count($params) != 1) {
             return '';
         }
+
+        list($p) = $params;
+        $t = $p->getClass();
+        if ($t == null or $t->getName() != 'Fruit\BenchKit\Benchmark') {
+            return '';
+        }
         return $name;
     }
 
@@ -50,8 +56,8 @@ class Benchmarker
 
     private function checkMethodArray(array $func)
     {
-        if (count($funct) != 2) {
-            return '';
+        if (count($func) != 2) {
+            return array('', '');
         }
         $cls = null;
         $method = null;
@@ -59,11 +65,11 @@ class Benchmarker
             $cls = new ReflectionClass($func[0]);
             $method = $cls->getMethod($func[1]);
         } catch (ReflectionException $e) {
-            return '';
+            return array('', '');
         }
 
-        $name = $cls->getName() . '::' . $method->getName();
-        return $this->checkParam($name, $method->getParameters());
+        $name = $method->getName();
+        return array($cls->getName(), $this->checkParam($name, $method->getParameters()));
     }
 
     /**
@@ -72,8 +78,7 @@ class Benchmarker
      * The benchmark function has following restrictions:
      * - Receive exactly one parameter, which will be an instance of Fruit\Benchmark
      * - "Class::StaticMethod" format is not acceptable. Use array format instead.
-     *
-     * Add type-hinting on the parameter is suggested.
+     * - Must have type-hinting.
      *
      * @param $func callable
      * @return boolean true on success, false otherwise
@@ -81,18 +86,22 @@ class Benchmarker
     public function register(callable $func)
     {
         $name = '';
-        if (function_exists($func)) {
-            $name = $this->checkFunction($func);
-        } elseif (is_array($func)) {
+        $group = '';
+        if (is_array($func)) {
             // method
-            $name = $this->checkMethodArray($func);
+            list($group, $name) = $this->checkMethodArray($func);
+        } elseif (function_exists($func)) {
+            $name = $this->checkFunction($func);
         }
 
         if ($name == '') {
             return false;
         }
 
-        $this->victims[$func] = new Benchmark($name, $func, $this->ttl);
+        if (!isset($this->victims[$group])) {
+            $this->victims[$group] = array();
+        }
+        $this->victims[$group][] = new Benchmark($name, $func, $this->ttl);
         return true;
     }
 
@@ -105,8 +114,10 @@ class Benchmarker
      */
     public function run(Summary $sum, Progress $pro)
     {
-        foreach ($this->victims as $f => $b) {
-            $pro->format($b->Benchmark());
+        foreach ($this->victims as $group => $bs) {
+            foreach ($bs as $b) {
+                $pro->format($group, $b->Benchmark());
+            }
         }
         $sum->format($this->victims);
     }

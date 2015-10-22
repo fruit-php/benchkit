@@ -7,6 +7,7 @@ use Fruit\PathKit\Path;
 use Fruit\BenchKit\Benchmarker;
 use Fruit\BenchKit\Formatter\DefaultSummaryLogger;
 use Fruit\BenchKit\Formatter\DefaultProgressLogger;
+use ReflectionClass;
 
 class RunCommand extends Command
 {
@@ -35,6 +36,8 @@ class RunCommand extends Command
         if (is_file($entry)) {
             require_once($entry);
         }
+
+        $oldClasses = get_declared_classes();
         $oldFunctions = get_defined_functions();
         $pendingDirs = array((new Path($dir))->normalize());
 
@@ -43,13 +46,29 @@ class RunCommand extends Command
             $pendingDirs = array_merge($pendingDirs, $subDirs);
         }
 
+        $newClasses = get_declared_classes();
         $newFunctions = get_defined_functions();
         $funcs = array_diff($newFunctions['user'], $oldFunctions['user']);
+        $classes = array_diff($newClasses, $oldClasses);
 
         $b = new Benchmarker($ttl);
         foreach ($funcs as $f) {
-            if (substr($f, 0, 9) == 'benchmark') {
-                $b->register($f);
+            $b->register($f);
+        }
+
+        foreach ($classes as $c) {
+            $cls = new ReflectionClass($c);
+            $methods = $cls->getMethods();
+            foreach ($methods as $m) {
+                $fn = $m->getName();
+                if ($m->isConstructor() or
+                    $m->isDestructor() or
+                    $m->isAbstract() or
+                    !$m->isPublic()) {
+
+                    continue;
+                }
+                $b->register(array($c, $m->getName()));
             }
         }
 
