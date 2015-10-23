@@ -13,11 +13,15 @@
 	"phploc/phploc": "*",
 	"pdepend/pdepend": "*",
 	"phpmd/phpmd": "*",
-	"sebastian/phpcpd": "*"
+	"sebastian/phpcpd": "*",
+	"fruit/chartkit": "~0.0"
     },
     "require": {
 	"corneltek/cliframework": "~2",
 	"fruit/pathkit": "~1"
+    },
+    "suggest": {
+	"fruit/chartkit": "~0.0"
     },
     "autoload": {
         "psr-4": {
