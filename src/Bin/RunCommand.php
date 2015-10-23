@@ -18,6 +18,14 @@ class RunCommand extends Command
 
         $b = 'running benchmark for at least this amount of time(seconds), default to 1';
         $opt->add('b|base:', $b)->isa('number')->defaultValue(1);
+
+        $p = 'full class name (including namespace) of progress formatter, default to Fruit\Benchkit\Formatter\DefaultProgressLogger';
+        $opt->add('p|progress:', $p)->isa('string')
+            ->defaultValue('Fruit\BenchKit\Formatter\DefaultProgressLogger');
+
+        $s = 'full class name (including namespace) of summary formatter, default to Fruit\Benchkit\Formatter\DefaultSummaryLogger';
+        $opt->add('s|summary:', $s)->isa('string')
+            ->defaultValue('Fruit\BenchKit\Formatter\DefaultSummaryLogger');
     }
 
     public function arguments($args)
@@ -36,6 +44,28 @@ class RunCommand extends Command
         if (is_file($entry)) {
             require_once($entry);
         }
+        $p = $this->options->progress;
+        if (!class_exists($p)) {
+            echo "$p does not exists.\n";
+            return;
+        }
+        $ref = new ReflectionClass($p);
+        if (!$ref->implementsInterface('Fruit\BenchKit\Formatter\Progress')) {
+            echo "$p is not a correct progress formatter.\n";
+            return;
+        }
+        $progress = $ref->newInstance();
+        $s = $this->options->summary;
+        if (!class_exists($s)) {
+            echo "$s does not exist.\n";
+            return;
+        }
+        $ref = new ReflectionClass($s);
+        if (!$ref->implementsInterface('Fruit\BenchKit\Formatter\Summary')) {
+            echo "$s is not a correct summary formatter.\n";
+            return;
+        }
+        $summary = $ref->newInstance();
 
         $oldClasses = get_declared_classes();
         $oldFunctions = get_defined_functions();
@@ -72,7 +102,7 @@ class RunCommand extends Command
             }
         }
 
-        $b->run(new DefaultSummaryLogger, new DefaultProgressLogger);
+        $b->run($summary, $progress);
     }
 
     private function requirePHPFiles($dir)

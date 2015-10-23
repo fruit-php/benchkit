@@ -18,13 +18,15 @@ class Benchmark
     private $start;
     private $waste;
     private $func;
-    private $ttl = 1.0;
+    private $unit = 1.0;
+    private $opu; // operations per time-unit
+    private $msop; // milliseconds per operation
     public $name;
 
-    public function __construct($name, callable $func, $ttl = 1.0)
+    public function __construct($name, callable $func, $unit = 1.0)
     {
         $this->func = $func;
-        $this->ttl = ($ttl > 0)?$ttl:1.0;
+        $this->unit = ($unit > 0)?$unit:1.0;
         $this->name = $name;
     }
 
@@ -79,6 +81,22 @@ class Benchmark
         }
     }
 
+    /**
+     * run time per loop (millisecond)
+     */
+    public function runTime()
+    {
+        return $this->msop;
+    }
+
+    /**
+     * loop running per time unit
+     */
+    public function loops()
+    {
+        return $this->opu;
+    }
+
     private function run($n)
     {
         $this->n = $n;
@@ -93,7 +111,7 @@ class Benchmark
         if ($t == 0) {
             return $n * 10;
         }
-        return ceil($this->ttl / $t * $n);
+        return ceil($this->unit / $t * $n);
     }
 
     /**
@@ -105,11 +123,13 @@ class Benchmark
         $this->waste = 0.0;
         $n = 1;
         $t = 0.0;
-        while ($t < $this->ttl) {
+        while ($t < $this->unit) {
             $this->Reset();
             $t = $this->run($n);
             $n = $this->predict($n, $t);
         }
+        $this->opu = $this->N() / $this->T();
+        $this->msop = $this->T() * 1000.0 / $this->N();
         return $this;
     }
 }

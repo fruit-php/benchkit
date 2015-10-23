@@ -26,6 +26,8 @@ Benchmark function are collected into an unnamed group.
 bench run example
 ```
 
+Thanks to [CLIFramework](https://github.com/c9s/CLIFramework), you can run `bench help run` to see supported command line arguments.
+
 `bench` does not support construct arguments, you have to write your own benchmark executor to register benchmarks and run it.
 
 ## License
