@@ -17,7 +17,7 @@
     },
     "require": {
 	"corneltek/cliframework": "~2",
-	"fruit/pathkit": "@dev"
+	"fruit/pathkit": "~1"
     },
     "autoload": {
         "psr-4": {
