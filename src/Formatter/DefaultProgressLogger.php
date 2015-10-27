@@ -13,7 +13,7 @@ class DefaultProgressLogger implements Progress
         }
         echo sprintf("%s ... %d loops in %f ms\n",
                      $group . $b->name,
-                     $b->N(),
+                     $b->n,
                      $b->T()*1000.0);
     }
 }

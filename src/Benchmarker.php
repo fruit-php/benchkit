@@ -23,11 +23,13 @@ class Benchmarker
 {
     private $victims;
     private $ttl;
+    private $xhprof;
 
-    public function __construct($ttl = 1.0)
+    public function __construct($ttl = 1.0, $xhprof = false)
     {
         $this->ttl = ($ttl > 0)?$ttl:1.0;
         $this->victims = array();
+        $this->xhprof = $xhprof == true;
     }
 
     private function checkParam($name, $params)
@@ -116,7 +118,7 @@ class Benchmarker
     {
         foreach ($this->victims as $group => $bs) {
             foreach ($bs as $b) {
-                $pro->format($group, $b->Benchmark());
+                $pro->format($group, $b->Benchmark($this->xhprof));
             }
         }
         $sum->format($this->victims);

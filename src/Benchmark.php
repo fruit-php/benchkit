@@ -13,7 +13,7 @@ namespace Fruit\BenchKit;
  */
 class Benchmark
 {
-    private $n;
+    public $n;
 
     private $start;
     private $waste;
@@ -21,6 +21,7 @@ class Benchmark
     private $unit = 1.0;
     private $opu; // operations per time-unit
     private $msop; // milliseconds per operation
+    private $xhprof; // xhprof data;
     public $name;
 
     public function __construct($name, callable $func, $unit = 1.0)
@@ -31,19 +32,19 @@ class Benchmark
     }
 
     /**
-     * Get number of times your test code should run.
-     */
-    public function N()
-    {
-        return $this->n;
-    }
-
-    /**
      * Get how much time costs to run N loops.
      */
     public function T()
     {
         return $this->waste;
+    }
+
+    /**
+     * Get xhprof data (if any)
+     */
+    public function X()
+    {
+        return $this->xhprof;
     }
 
     /**
@@ -97,11 +98,17 @@ class Benchmark
         return $this->opu;
     }
 
-    private function run($n)
+    private function run($n, $xhprof)
     {
         $this->n = $n;
         $this->start = microtime(true);
+        if ($xhprof) {
+            xhprof_enable();
+        }
         call_user_func($this->func, $this);
+        if ($xhprof) {
+            $this->xhprof = xhprof_disable();
+        }
         $this->Pause();
         return $this->waste;
     }
@@ -117,7 +124,7 @@ class Benchmark
     /**
      * Do the benchmark stuff.
      */
-    public function Benchmark()
+    public function Benchmark($xhprof)
     {
         $this->start = 0;
         $this->waste = 0.0;
@@ -125,11 +132,12 @@ class Benchmark
         $t = 0.0;
         while ($t < $this->unit) {
             $this->Reset();
-            $t = $this->run($n);
+            $t = $this->run($n, $xhprof);
             $n = $this->predict($n, $t);
         }
-        $this->opu = $this->N() / $this->T();
-        $this->msop = $this->T() * 1000.0 / $this->N();
+
+        $this->opu = $this->n / $this->T();
+        $this->msop = $this->T() * 1000.0 / $this->n;
         return $this;
     }
 }

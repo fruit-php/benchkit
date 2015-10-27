@@ -44,6 +44,14 @@ class RunCommand extends Command
 
     public function execute($dir)
     {
+        $xhprof = $this->options->xhprof;
+        if ($xhprof) {
+            if (! function_exists('xhprof_enable')) {
+                echo "xhprof extension disabled, skip xhprof data collecting\n";
+                $xhprof = false;
+            }
+        }
+
         $entry = "";
         @$entry = $this->options->init;
         $ttl = $this->options->base;
@@ -98,7 +106,7 @@ class RunCommand extends Command
         $funcs = array_diff($newFunctions['user'], $oldFunctions['user']);
         $classes = array_diff($newClasses, $oldClasses);
 
-        $b = new Benchmarker($ttl);
+        $b = new Benchmarker($ttl, $xhprof);
         foreach ($funcs as $f) {
             $b->register($f);
         }

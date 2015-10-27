@@ -14,13 +14,16 @@
 	"pdepend/pdepend": "*",
 	"phpmd/phpmd": "*",
 	"sebastian/phpcpd": "*",
+	"ext-xhprof": "*",
 	"fruit/chartkit": "~0.0"
     },
     "require": {
+	"lox/xhprof": "@dev",
 	"corneltek/cliframework": "~2",
 	"fruit/pathkit": "~1"
     },
     "suggest": {
+	"ext-xhprof": "*",
 	"fruit/chartkit": "~0.0"
     },
     "autoload": {
