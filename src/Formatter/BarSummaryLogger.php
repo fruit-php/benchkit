@@ -5,7 +5,7 @@ namespace Fruit\BenchKit\Formatter;
 use Fruit\BenchKit\Benchmark;
 use Fruit\ChartKit\HorizontalBarChart;
 
-class BarSummaryLogger implements Summary
+class BarSummaryLogger extends AbstractSummary
 {
     public function format(array $bs)
     {
@@ -13,12 +13,21 @@ class BarSummaryLogger implements Summary
             if ($group == '') {
                 $group = 'Global benchmarks';
             }
+            $useTime = $this->test('useTime');
+            $title = 'loops per time unit';
+            if ($useTime) {
+                $title = 'milliseconds per loop';
+            }
 
             $loop = new HorizontalBarChart;
             foreach ($b as $bench) {
-                $loop->add($bench->name, round($bench->loops()));
+                $val = $bench->loops();
+                if ($useTime) {
+                    $val = $bench->runTime();
+                }
+                $loop->add($bench->name, $val);
             }
-            echo "\n\n$group - loops per time unit";
+            echo "\n\n$group - $title";
             echo $loop->render();
         }
     }

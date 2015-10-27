@@ -26,6 +26,15 @@ class RunCommand extends Command
         $s = 'full class name (including namespace) of summary formatter, default to Fruit\Benchkit\Formatter\DefaultSummaryLogger';
         $opt->add('s|summary:', $s)->isa('string')
             ->defaultValue('Fruit\BenchKit\Formatter\DefaultSummaryLogger');
+
+        $sa = 'constructor arguments of summary formatter, check the summary formatter before use this option.';
+        $opt->add('sa:', $sa)->isa('string')->defaultValue('');
+
+        $pa = 'constructor arguments of progress formatter, check the progress formatter before use this option.';
+        $opt->add('pa:', $pa)->isa('string')->defaultValue('');
+
+        $x = 'enable xhprof';
+        $opt->add('x|xhprof?')->flag();
     }
 
     public function arguments($args)
@@ -54,7 +63,11 @@ class RunCommand extends Command
             echo "$p is not a correct progress formatter.\n";
             return;
         }
-        $progress = $ref->newInstance();
+        if ($this->options->pa != '') {
+            $progress = $ref->newInstance($this->options->pa);
+        } else {
+            $progress = $ref->newInstance();
+        }
         $s = $this->options->summary;
         if (!class_exists($s)) {
             echo "$s does not exist.\n";
@@ -65,7 +78,11 @@ class RunCommand extends Command
             echo "$s is not a correct summary formatter.\n";
             return;
         }
-        $summary = $ref->newInstance();
+        if ($this->options->sa != '') {
+            $summary = $ref->newInstance($this->options->sa);
+        } else {
+            $summary = $ref->newInstance();
+        }
 
         $oldClasses = get_declared_classes();
         $oldFunctions = get_defined_functions();
