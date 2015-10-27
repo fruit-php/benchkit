@@ -30,6 +30,27 @@ Thanks to [CLIFramework](https://github.com/c9s/CLIFramework), you can run `benc
 
 `bench` does not support construct arguments, you have to write your own benchmark executor to register benchmarks and run it.
 
+### XHProf
+
+You can gather xhprof data when running benchmarks with default command line runner by
+
+- enable `--xhprof` option and
+- use `Fruit\BenchKit\Formatter\XhprofSummary` summary formatter.
+
+### Passing constructor arguments to formatter
+
+You can pass a string as constructor argument to formatter with `--sa` and `--pa` options.
+
+### Generate multiple summary without running benchmarks several times
+
+Use `Fruit\BenchKit\Formatter\ChainSummary`, and pass constructor argument to specify what formatters you want.
+
+```sh
+bench run -s 'Fruit\BenchKit\Formatter\ChainSummary' --sa '{"chain":["Fruit\\BenchKit\\Formatter\\HighChartSummary":"{\"type\":\"time\"}", "Fruit\\BenchKit\\Formatter\\XhprofSummary":""]}' -p 'Fruit\BenchKit\Formatter\NullProgressLogger' example > /tmp/chart.html
+```
+
+Beware about shell escaping and php string escaping because builtin formatters accepts argument in JSON format. Use `--argdebug` when in doubt.
+
 ## License
 
 Any version of MIT, GPL or LGPL.

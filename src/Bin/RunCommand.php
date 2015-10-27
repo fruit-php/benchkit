@@ -34,7 +34,9 @@ class RunCommand extends Command
         $opt->add('pa:', $pa)->isa('string')->defaultValue('');
 
         $x = 'enable xhprof';
-        $opt->add('x|xhprof?')->flag();
+        $opt->add('x|xhprof?', $x)->flag();
+
+        $opt->add('argdebug?', 'dump accepted argument string with var_export and exit.')->flag();
     }
 
     public function arguments($args)
@@ -50,6 +52,16 @@ class RunCommand extends Command
                 echo "xhprof extension disabled, skip xhprof data collecting\n";
                 $xhprof = false;
             }
+        }
+
+        if ($this->options->argdebug) {
+            if ($this->options->pa) {
+                echo sprintf("Progress arguments: %s\n", var_export($this->options->pa, true));
+            }
+            if ($this->options->sa) {
+                echo sprintf("Summary arguments: %s\n", var_export($this->options->sa, true));
+            }
+            return;
         }
 
         $entry = "";
