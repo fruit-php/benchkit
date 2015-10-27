@@ -4,6 +4,15 @@ namespace Fruit\BenchKit\Formatter;
 
 use XHProfRuns_Default;
 
+/**
+ * XhprofSummary gather xhprof data and save with default XHProfUI.
+ *
+ * This formatter accepts constructor argument in JSON format.
+ *
+ * Available arguments:
+ *
+ * - dir: where you want to save the xhprof data.
+ */
 class XhprofSummary extends AbstractSummary
 {
     public function format(array $groups)

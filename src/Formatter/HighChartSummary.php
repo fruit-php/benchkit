@@ -4,6 +4,15 @@ namespace Fruit\BenchKit\Formatter;
 
 use Fruit\BenchKit\Benchmark;
 
+/**
+ * HighChartSummary generates html codes which can show benchmark result with HighCharts.
+ *
+ * This formatter accepts constructor argument in JSON format.
+ *
+ * Available arguments:
+ *
+ * - type: data type, can be 'time' which means show the time data. default is showing loop counts.
+ */
 class HighChartSummary extends AbstractSummary
 {
     public function format(array $groups)

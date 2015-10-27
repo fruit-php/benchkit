@@ -5,6 +5,15 @@ namespace Fruit\BenchKit\Formatter;
 use Fruit\BenchKit\Benchmark;
 use Fruit\ChartKit\HorizontalBarChart;
 
+/**
+ * BarSummaryLogger generates horizontal bar chart in console.
+ *
+ * This formatter accepts constructor argument in JSON format.
+ *
+ * Available arguments:
+ *
+ * - useTime: show time data instead of loop counts.
+ */
 class BarSummaryLogger extends AbstractSummary
 {
     public function format(array $bs)
