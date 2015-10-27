@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['n',['N',['../class_fruit_1_1_bench_kit_1_1_benchmark.html#a2a207cbed55e39628b432ca23d44719c',1,'Fruit::BenchKit::Benchmark']]]
+  ['highchartsummary',['HighChartSummary',['../class_fruit_1_1_bench_kit_1_1_formatter_1_1_high_chart_summary.html',1,'Fruit::BenchKit::Formatter']]],
+  ['highchartsummary_2ephp',['HighChartSummary.php',['../_high_chart_summary_8php.html',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['summary_2ephp',['Summary.php',['../_summary_8php.html',1,'']]]
+  ['highchartsummary_2ephp',['HighChartSummary.php',['../_high_chart_summary_8php.html',1,'']]]
 ];

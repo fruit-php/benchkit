@@ -97,61 +97,62 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
 <div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="class_fruit_1_1_bench_kit_1_1_formatter_1_1_default_summary_logger.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_fruit_1_1_bench_kit_1_1_formatter_1_1_default_summary_logger.html">DefaultSummaryLogger</a> <span class="keyword">implements</span> <a class="code" href="interface_fruit_1_1_bench_kit_1_1_formatter_1_1_summary.html">Summary</a></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="class_fruit_1_1_bench_kit_1_1_formatter_1_1_default_summary_logger.html#a9ba12ae0472baa9a90abccc262b81b97">    9</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="class_fruit_1_1_bench_kit_1_1_formatter_1_1_default_summary_logger.html#a9ba12ae0472baa9a90abccc262b81b97">format</a>(array $bs) {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keywordflow">foreach</span> ($bs as $group =&gt; $b) {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;            $this-&gt;f($group, $b);</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        }</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    }</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">private</span> <span class="keyword">function</span> f($group, array $bs)</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keywordflow">if</span> ($group == <span class="stringliteral">&#39;&#39;</span>) {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            $group = <span class="stringliteral">&quot;Global benchmarks&quot;</span>;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        }</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        echo <span class="stringliteral">&quot;\n$group:\n&quot;</span>;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        $maxNameLength = 0;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        usort($bs, <span class="keyword">function</span>($a, $b){</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                $x = $a-&gt;T()*1000.0/$a-&gt;N();</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                $y = $b-&gt;T()*1000.0/$b-&gt;N();</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                <span class="keywordflow">if</span> ($x &gt; $y) {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                    <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                }</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                <span class="keywordflow">if</span> ($x &lt; $y) {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                }</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        });</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">foreach</span> ($bs as $b) {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            $sz = strlen($b-&gt;name);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            <span class="keywordflow">if</span> ($sz &gt; $maxNameLength) {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                $maxNameLength = $sz;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            }</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        }</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        $baseline = $bs[0]-&gt;T()*1000.0/$bs[0]-&gt;N();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">foreach</span> ($bs as $k =&gt; $b) {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            $t = $b-&gt;T()*1000.0/$b-&gt;N();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            $msg = <span class="stringliteral">&#39;baseline&#39;</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keywordflow">if</span> ($k != 0) {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                $msg = sprintf(<span class="stringliteral">&#39;%d%% slower&#39;</span>, round($t * 100.0 / $baseline) - 100);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            echo sprintf(<span class="charliteral">&#39;%&#39;</span> . $maxNameLength . <span class="stringliteral">&quot;s  %16.6f ms/op  %16.6f op/s  %s\n&quot;</span>,</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                         $b-&gt;name, $t, $b-&gt;N()/$b-&gt;T(),</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                         $msg);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="class_fruit_1_1_bench_kit_1_1_formatter_1_1_default_summary_logger.html#a9ba12ae0472baa9a90abccc262b81b97">    9</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="class_fruit_1_1_bench_kit_1_1_formatter_1_1_default_summary_logger.html#a9ba12ae0472baa9a90abccc262b81b97">format</a>(array $bs)</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keywordflow">foreach</span> ($bs as $group =&gt; $b) {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            $this-&gt;f($group, $b);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        }</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    }</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">private</span> <span class="keyword">function</span> f($group, array $bs)</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordflow">if</span> ($group == <span class="stringliteral">&#39;&#39;</span>) {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            $group = <span class="stringliteral">&quot;Global benchmarks&quot;</span>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        }</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        echo <span class="stringliteral">&quot;\n$group:\n&quot;</span>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        $maxNameLength = 0;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        usort($bs, <span class="keyword">function</span>($a, $b){</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            $x = $a-&gt;runTime();</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            $y = $b-&gt;runTime();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="keywordflow">if</span> ($x &gt; $y) {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            }</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            <span class="keywordflow">if</span> ($x &lt; $y) {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            }</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        });</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">foreach</span> ($bs as $b) {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            $sz = strlen($b-&gt;name);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keywordflow">if</span> ($sz &gt; $maxNameLength) {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                $maxNameLength = $sz;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            }</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        $baseline = $bs[0]-&gt;runTime();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">foreach</span> ($bs as $k =&gt; $b) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            $t = $b-&gt;runTime();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            $msg = <span class="stringliteral">&#39;baseline&#39;</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keywordflow">if</span> ($k != 0) {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                $msg = sprintf(<span class="stringliteral">&#39;%d%% slower&#39;</span>, round($t * 100.0 / $baseline) - 100);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            echo sprintf(<span class="charliteral">&#39;%&#39;</span> . $maxNameLength . <span class="stringliteral">&quot;s  %16.6f ms/op  %16.6f ops  %s\n&quot;</span>,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                         $b-&gt;name, $t, $b-&gt;loops(),</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                         $msg);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
 <div class="ttc" id="class_fruit_1_1_bench_kit_1_1_formatter_1_1_default_summary_logger_html_a9ba12ae0472baa9a90abccc262b81b97"><div class="ttname"><a href="class_fruit_1_1_bench_kit_1_1_formatter_1_1_default_summary_logger.html#a9ba12ae0472baa9a90abccc262b81b97">Fruit\BenchKit\Formatter\DefaultSummaryLogger\format</a></div><div class="ttdeci">format(array $bs)</div><div class="ttdef"><b>Definition:</b> <a href="_default_summary_logger_8php_source.html#l00009">DefaultSummaryLogger.php:9</a></div></div>
 <div class="ttc" id="interface_fruit_1_1_bench_kit_1_1_formatter_1_1_summary_html"><div class="ttname"><a href="interface_fruit_1_1_bench_kit_1_1_formatter_1_1_summary.html">Fruit\BenchKit\Formatter\Summary</a></div><div class="ttdef"><b>Definition:</b> <a href="_summary_8php_source.html#l00007">Summary.php:7</a></div></div>
-<div class="ttc" id="namespace_fruit_1_1_bench_kit_1_1_formatter_html"><div class="ttname"><a href="namespace_fruit_1_1_bench_kit_1_1_formatter.html">Fruit\BenchKit\Formatter</a></div><div class="ttdef"><b>Definition:</b> <a href="_default_progress_logger_8php_source.html#l00003">DefaultProgressLogger.php:3</a></div></div>
+<div class="ttc" id="namespace_fruit_1_1_bench_kit_1_1_formatter_html"><div class="ttname"><a href="namespace_fruit_1_1_bench_kit_1_1_formatter.html">Fruit\BenchKit\Formatter</a></div><div class="ttdef"><b>Definition:</b> <a href="_abstract_summary_8php_source.html#l00003">AbstractSummary.php:3</a></div></div>
 <div class="ttc" id="namespace_fruit_1_1_bench_kit_1_1_benchmark_html"><div class="ttname"><a href="namespace_fruit_1_1_bench_kit_1_1_benchmark.html">Benchmark</a></div></div>
 <div class="ttc" id="class_fruit_1_1_bench_kit_1_1_formatter_1_1_default_summary_logger_html"><div class="ttname"><a href="class_fruit_1_1_bench_kit_1_1_formatter_1_1_default_summary_logger.html">Fruit\BenchKit\Formatter\DefaultSummaryLogger</a></div><div class="ttdef"><b>Definition:</b> <a href="_default_summary_logger_8php_source.html#l00007">DefaultSummaryLogger.php:7</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 22 2015 17:52:30 for Fruit BenchKit by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Oct 27 2015 12:16:03 for Fruit BenchKit by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

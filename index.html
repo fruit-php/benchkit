@@ -92,13 +92,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h2>Command line helper</h2>
 <p><code>bench</code> is command line benchmark runner. It will scan specified directory recursivly, find out all benchmark functions, and run. For example:</p>
 <p>```sh bench run example ```</p>
+<p>Thanks to <a href="https://github.com/c9s/CLIFramework">CLIFramework</a>, you can run <code>bench help run</code> to see supported command line arguments.</p>
 <p><code>bench</code> does not support construct arguments, you have to write your own benchmark executor to register benchmarks and run it.</p>
+<h3>XHProf</h3>
+<p>You can gather xhprof data when running benchmarks with default command line runner by</p>
+<ul>
+<li>enable <code>--xhprof</code> option and</li>
+<li>use <code><a class="el" href="namespace_fruit.html">Fruit</a>\BenchKit\Formatter\XhprofSummary</code> summary formatter.</li>
+</ul>
+<h3>Passing constructor arguments to formatter</h3>
+<p>You can pass a string as constructor argument to formatter with <code>--sa</code> and <code>--pa</code> options.</p>
+<h3>Generate multiple summary without running benchmarks several times</h3>
+<p>Use <code><a class="el" href="namespace_fruit.html">Fruit</a>\BenchKit\Formatter\ChainSummary</code>, and pass constructor argument to specify what formatters you want.</p>
+<p>```sh bench run -s '<a class="el" href="namespace_fruit.html">Fruit</a>' &ndash;sa '{"chain":["Fruit\\BenchKit\\Formatter\\HighChartSummary":"{\"type":"time"}", "<a class="el" href="namespace_fruit.html">Fruit</a>\BenchKit\Formatter\XhprofSummary":""]}' -p '<a class="el" href="namespace_fruit.html">Fruit</a>' example &gt; /tmp/chart.html ```</p>
+<p>Beware about shell escaping and php string escaping because builtin formatters accepts argument in JSON format. Use <code>--argdebug</code> when in doubt.</p>
 <h2>License</h2>
 <p>Any version of MIT, GPL or LGPL. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 22 2015 17:52:30 for Fruit BenchKit by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Oct 27 2015 12:16:03 for Fruit BenchKit by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

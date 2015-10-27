@@ -7,11 +7,11 @@
 
 var indexSectionsWithContent =
 {
-  0: "$_abdefinoprst",
-  1: "bdprs",
+  0: "$_abcdefhilnoprstx",
+  1: "abcdhnprsx",
   2: "f",
-  3: "bdprs",
-  4: "_abefinoprt",
+  3: "abcdhnprsx",
+  4: "_abefiloprtx",
   5: "$"
 };
 
