@@ -36,8 +36,7 @@ class BarSummaryLogger extends AbstractSummary
                 }
                 $loop->add($bench->name, $val);
             }
-            echo "\n\n$group - $title";
-            echo $loop->render();
+            echo $loop->render("$group - $title");
         }
     }
 }
