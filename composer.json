@@ -24,7 +24,7 @@
     },
     "suggest": {
 	"ext-xhprof": "*",
-	"fruit/chartkit": "0.0.2"
+	"fruit/chartkit": "0.0.3"
     },
     "autoload": {
         "psr-4": {
