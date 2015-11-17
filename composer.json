@@ -15,14 +15,15 @@
 	"phpmd/phpmd": "*",
 	"sebastian/phpcpd": "*",
 	"ext-xhprof": "*",
+	"lox/xhprof": "*",
 	"fruit/chartkit": "~0.0"
     },
     "require": {
-	"lox/xhprof": "@dev",
 	"corneltek/cliframework": "~2",
 	"fruit/pathkit": "~1"
     },
     "suggest": {
+	"lox/xhprof": "*",
 	"ext-xhprof": "*",
 	"fruit/chartkit": "0.0.3"
     },
