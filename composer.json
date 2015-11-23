@@ -15,7 +15,7 @@
 	"phpmd/phpmd": "*",
 	"sebastian/phpcpd": "*",
 	"ext-xhprof": "*",
-	"lox/xhprof": "*",
+	"lox/xhprof": "@dev",
 	"fruit/chartkit": "~0.0"
     },
     "require": {
@@ -23,8 +23,8 @@
 	"fruit/pathkit": "~1"
     },
     "suggest": {
-	"lox/xhprof": "*",
 	"ext-xhprof": "*",
+	"lox/xhprof": "@dev",
 	"fruit/chartkit": "0.0.3"
     },
     "autoload": {
