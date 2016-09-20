@@ -19,7 +19,7 @@
 	"fruit/chartkit": "~0.0"
     },
     "require": {
-	"corneltek/cliframework": "~2",
+	"corneltek/cliframework": "~3",
 	"fruit/pathkit": "~1"
     },
     "suggest": {
