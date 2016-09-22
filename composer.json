@@ -23,9 +23,9 @@
 	"fruit/pathkit": "~1"
     },
     "suggest": {
-	"ext-xhprof": "*",
-	"lox/xhprof": "@dev",
-	"fruit/chartkit": "0.0.3"
+	"ext-xhprof": "Required only if you are using xhprof",
+	"lox/xhprof": "Required only if you are using xhprof",
+	"fruit/chartkit": "Required only if you are using HighChartSummary"
     },
     "autoload": {
         "psr-4": {
