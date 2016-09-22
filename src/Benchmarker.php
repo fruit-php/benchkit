@@ -32,7 +32,7 @@ class Benchmarker
         $this->xhprof = $xhprof == true;
     }
 
-    private function checkParam($name, $params)
+    private static function checkParam($name, $params)
     {
         if (count($params) != 1) {
             return '';
@@ -46,17 +46,17 @@ class Benchmarker
         return $name;
     }
 
-    private function checkFunction($func)
+    private static function checkFunction($func)
     {
         $f = new ReflectionFunction($func);
         $name = $f->getName();
         if ($f->isClosure()) {
             $name = '(CLOSURE)';
         }
-        return $this->checkParam($name, $f->getParameters());
+        return self::checkParam($name, $f->getParameters());
     }
 
-    private function checkMethodArray(array $func)
+    private static function checkMethodArray(array $func)
     {
         if (count($func) != 2) {
             return array('', '');
@@ -71,7 +71,40 @@ class Benchmarker
         }
 
         $name = $method->getName();
-        return array($cls->getName(), $this->checkParam($name, $method->getParameters()));
+        $ret = array($cls->getName(), $func, self::checkParam($name, $method->getParameters()));
+        if ($ret[2] !== '' and !$method->isStatic()) {
+            $ret[1][0] = $cls->newInstance();
+        }
+        return $ret;
+    }
+
+    public function registerClass($clsname)
+    {
+        $cls = new ReflectionClass($clsname);
+        $methods = $cls->getMethods();
+        foreach ($methods as $m) {
+            $fn = $m->getName();
+            if ($m->isConstructor() or
+                $m->isDestructor() or
+                $m->isAbstract() or
+                !$m->isPublic()) {
+
+                continue;
+            }
+            list($group, $func, $name) = self::checkMethodArray(array($clsname, $fn));
+            if ($name === '') {
+                continue;
+            }
+            $cb = array($clsname, $m->getName());
+            if (!$m->isStatic()) {
+                $cb[0] = $cls->newInstance();
+            }
+
+            if (!isset($this->victims[$group])) {
+                $this->victims[$group] = array();
+            }
+            $this->victims[$group][] = new Benchmark($name, $func, $this->ttl);
+        }
     }
 
     /**
@@ -91,9 +124,9 @@ class Benchmarker
         $group = '';
         if (is_array($func)) {
             // method
-            list($group, $name) = $this->checkMethodArray($func);
+            list($group, $func, $name) = self::checkMethodArray($func);
         } elseif (function_exists($func)) {
-            $name = $this->checkFunction($func);
+            $name = self::checkFunction($func);
         }
 
         if ($name == '') {

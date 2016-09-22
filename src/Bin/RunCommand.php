@@ -124,19 +124,7 @@ class RunCommand extends Command
         }
 
         foreach ($classes as $c) {
-            $cls = new ReflectionClass($c);
-            $methods = $cls->getMethods();
-            foreach ($methods as $m) {
-                $fn = $m->getName();
-                if ($m->isConstructor() or
-                    $m->isDestructor() or
-                    $m->isAbstract() or
-                    !$m->isPublic()) {
-
-                    continue;
-                }
-                $b->register(array($c, $m->getName()));
-            }
+            $b->registerClass($c);
         }
 
         $b->run($summary, $progress);
