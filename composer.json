@@ -14,8 +14,6 @@
 	"pdepend/pdepend": "*",
 	"phpmd/phpmd": "*",
 	"sebastian/phpcpd": "*",
-	"ext-xhprof": "*",
-	"lox/xhprof": "@dev",
 	"fruit/chartkit": "~0.0"
     },
     "require": {
