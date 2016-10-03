@@ -4,6 +4,8 @@ This package is part of Fruit Framework.
 
 BenchKit is set of tools helping you benchmark your program.
 
+[![Build Status](https://travis-ci.org/Ronmi/benchkit.svg)](https://travis-ci.org/Ronmi/benchkit)
+
 ## Synopsis
 
 See `mybench.php` in `example` folder.

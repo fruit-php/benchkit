@@ -29,7 +29,7 @@ force-update: composer.phar
 	./composer.phar update
 
 test: vendor/autoload.php
-	vendor/bin/phpunit -c phpunit.xml
+	bin/bench run example
 
 clean:
 	rm -fr build/coverage
