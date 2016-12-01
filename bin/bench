@@ -1,6 +1,13 @@
 #!/usr/bin/env php
 <?php
 
-require('vendor/autoload.php');
+if (preg_match('/(vendor\/(fruit\/benchkit\/)?)?bin$/', __DIR__, $file)) {
+    $file = substr(__DIR__, 0, strlen(__DIR__) - strlen($file[0])).'vendor/autoload.php';
+    if (file_exists($file)) {
+        require($file);
+    }
+}
+
+unset($file);
 
 exit(Fruit\BenchKit\Bin\BenchmarkApp::getInstance()->runWithTry($argv)?0:1);
